@@ -87,7 +87,7 @@ private void assignRewardsToTopUsersInGroups(Tournament tournament) {
     }
     
     // Starts a new tournament at 00:00 UTC daily
-    @Scheduled(cron = "0 38 21 * * *", zone = "UTC")  // Runs at 00:00 UTC every day
+    @Scheduled(cron = "0 0 0 * * *", zone = "UTC")  // Runs at 00:00 UTC every day
     public void startNewTournament() {
         // End any active tournament
         endCurrentTournament();
@@ -103,7 +103,7 @@ private void assignRewardsToTopUsersInGroups(Tournament tournament) {
     }
 
     // Ends the current tournament at 20:00 UTC daily
-    @Scheduled(cron = "0 38 22 * * *", zone = "UTC")  // Runs at 20:00 UTC every day
+    @Scheduled(cron = "0 0 20 * * *", zone = "UTC")  // Runs at 20:00 UTC every day
     public void endCurrentTournament() {
         Optional<Tournament> activeTournament = tournamentRepository.findActiveTournament();
         if (activeTournament.isPresent()) {
@@ -154,7 +154,6 @@ private void assignRewardsToTopUsersInGroups(Tournament tournament) {
         // Step 1: Check if the user exists and is eligible
         Optional<User> optionalUser = userRepository.findById(userId);
         if (!optionalUser.isPresent()) {
-            System.out.println("User not found, throwing CustomAppException...");
             throw new CustomAppException(HttpStatus.NOT_FOUND, "User with ID " + userId + " not found");
         }
 
