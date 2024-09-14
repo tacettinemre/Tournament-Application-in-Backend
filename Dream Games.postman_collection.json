@@ -1,0 +1,197 @@
+{
+	"info": {
+		"_postman_id": "9517ab70-2e87-4085-80de-15f3c22dd93e",
+		"name": "Dream Games",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38172303"
+	},
+	"item": [
+		{
+			"name": "Create User Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/createUser",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"createUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Level Request",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/updateLevel?userId=12",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateLevel"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enter Tournament Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/tournaments/enterTournament?userId=12",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tournaments",
+						"enterTournament"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Group Rank Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/tournaments/getGroupRank?userId=4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tournaments",
+						"getGroupRank"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Group Leaderboard Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/tournaments/getGroupLeaderboard?groupId=2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tournaments",
+						"getGroupLeaderboard"
+					],
+					"query": [
+						{
+							"key": "groupId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Country Leaderboard Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/tournaments/getCountryLeaderboard",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tournaments",
+						"getCountryLeaderboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Claim Reward Request",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/claimReward?userId=12",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"claimReward"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
