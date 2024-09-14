@@ -27,5 +27,4 @@ CREATE TABLE users (
     hasReward INT NOT NULL DEFAULT 0,
     FOREIGN KEY (group_id) REFERENCES user_groups(group_id),
     INDEX idx_user_group_id (group_id),
-    INDEX idx_user_group_id_score (group_id, score)
 ); 
