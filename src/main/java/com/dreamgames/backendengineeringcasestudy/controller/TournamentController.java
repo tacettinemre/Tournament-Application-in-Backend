@@ -1,5 +1,6 @@
 package com.dreamgames.backendengineeringcasestudy.controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +17,24 @@ import com.dreamgames.backendengineeringcasestudy.services.TournamentService;
 @RestController
 @RequestMapping("/tournaments")
 public class TournamentController {
-
+    
     @Autowired
     private TournamentService tournamentService;
 
     // Endpoint for a user to enter the tournament
     @PostMapping("/enterTournament")
     public ResponseEntity<List<User>> enterTournament(@RequestParam Long userId) {
-        // Call the service method to handle the business logic
         List<User> group = tournamentService.enterTournament(userId);
         return ResponseEntity.ok(group);  // Return the group's leaderboard
     }
     
-    @GetMapping("/getGroupRank")
-    public ResponseEntity<Integer> getGroupRank(@RequestParam Long userId) {
-        // Call the service method to get the user's rank in their group
-        int rank = tournamentService.getUserRankInGroup(userId);
-        return ResponseEntity.ok(rank);  // Return the user's rank
-    }
 
     @GetMapping("/getGroupLeaderboard")
-    public ResponseEntity<List<User>> getGroupLeaderboard(@RequestParam Long groupId) {
-        List<User> leaderboard = tournamentService.getGroupLeaderboard(groupId);
+    public ResponseEntity<List<Object[]>> getGroupLeaderboard(@RequestParam Long groupId) {
+        // Use the TournamentService to retrieve the leaderboard
+        List<Object[]> leaderboard = tournamentService.getGroupLeaderboard(groupId);
+
+        // Return the leaderboard as a ResponseEntity
         return ResponseEntity.ok(leaderboard);
     }
 
@@ -46,5 +43,14 @@ public class TournamentController {
         // Call the service method to get the country leaderboard
         List<Object[]> leaderboard = tournamentService.getCountryLeaderboard();
         return ResponseEntity.ok(leaderboard);
+    }
+
+    @GetMapping("/getGroupRank")
+    public ResponseEntity<Integer> getGroupRank(@RequestParam Long userId) {
+        // Call the service method to get the user's rank in their group
+        Integer rank = tournamentService.getGroupRank(userId);
+
+        // Return the rank as a ResponseEntity
+        return ResponseEntity.ok(rank);
     }
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 
 @Entity
 @Table(name = "user_groups")
@@ -25,8 +26,13 @@ public class Group {
     @Column(name = "group_status")
     private String groupStatus;
 
-    @Column(name = "countries", columnDefinition = "json")
-    private String countries;  // Assuming it's a JSON string in the DB
+    @Column(name = "countries")
+    private String countries; 
+
+    @Version
+    @Column(name = "version")
+    private Long version;  // This field is used for optimistic locking
+
 
     // Getters and setters
     public Long getGroupId() {
@@ -59,5 +65,13 @@ public class Group {
 
     public void setCountries(String countries) {
         this.countries = countries;
+    }
+    
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

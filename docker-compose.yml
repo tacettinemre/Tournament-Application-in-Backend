@@ -11,6 +11,11 @@ services:
       - '8080:8080'
     networks:
       - 'local-network'
+    depends_on:
+      redis:
+        condition: service_healthy
+      mysqldb:
+        condition: service_healthy
 
   mysqldb:
     image: mysql:8.0.28-oracle
@@ -18,20 +23,45 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'mysql-db'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_USER: 'myuser'
+      MYSQL_PASSWORD: 'mypassword'
+      MYSQL_ROOT_PASSWORD: 'rootpassword'
     networks:
       - 'local-network'
     ports:
       - '3306:3306'
     volumes:
-      - case-mysql-data:/var/lib/case-mysqldb
+      - case-mysql-data:/var/lib/mysql
       - ./mysql-db-dump.sql:/docker-entrypoint-initdb.d/mysql-db-dump.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  redis:
+    image: redis:alpine
+    container_name: case-redis
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      - 'local-network'
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
 volumes:
   case-mysql-data:
+  redis-data:
 
 networks:
   local-network:
     driver: bridge
+    name: local-network

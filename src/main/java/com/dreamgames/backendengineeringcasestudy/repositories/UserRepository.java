@@ -9,20 +9,18 @@ import org.springframework.stereotype.Repository;
 
 import com.dreamgames.backendengineeringcasestudy.models.User;
 
+import jakarta.transaction.Transactional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     
 
-    @Query("SELECT u FROM User u WHERE u.group_id = :groupId ORDER BY u.score DESC")
-    List<User> findByGroupIdOrderByScoreDesc(Long groupId);
 
-
-    @Query("SELECT u.country, SUM(u.score) as totalScore FROM User u GROUP BY u.country ORDER BY totalScore DESC")
-    List<Object[]> getCountryLeaderboard();
     // Find all users by the groupId
     List<User> findByGroupId(Long groupId);
     
     @Modifying
-    @Query("UPDATE User u SET u.group_id = null, u.score = 0")
+    @Transactional
+    @Query("UPDATE User u SET u.group = null, u.score = 0")
     void resetGroupIdAndScore();
 }

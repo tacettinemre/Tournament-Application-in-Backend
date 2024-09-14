@@ -26,4 +26,10 @@ public class UserController {
         User updatedUser = userService.updateLevel(userId);
         return ResponseEntity.ok(updatedUser);
     }
+
+    @PutMapping("/claimReward")
+    public ResponseEntity<User> claimReward(@RequestParam Long userId) {
+        User updatedUser = userService.claimReward(userId);
+        return ResponseEntity.ok(updatedUser);
+    }
 }

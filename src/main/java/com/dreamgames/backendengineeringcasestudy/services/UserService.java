@@ -4,8 +4,10 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.dreamgames.backendengineeringcasestudy.exception.CustomAppException;
 import com.dreamgames.backendengineeringcasestudy.models.User;
 import com.dreamgames.backendengineeringcasestudy.repositories.UserRepository;
 
@@ -15,6 +17,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CountryLeaderboardService countryLeaderboardService;
+
+    @Autowired
+    private GroupLeaderboardService groupLeaderboardService;
     // Updated createUser method: no longer requires a username, default values are assigned
     public User createUser() {
         User user = new User();
@@ -37,12 +44,14 @@ public class UserService {
             user.setCoins(user.getCoins() + coinsEarned);
 
             if (user.getGroup() != null && "active".equals(user.getGroup().getGroupStatus())) {
+                countryLeaderboardService.updateCountryScore(user.getCountry());
+                groupLeaderboardService.updateUserScoreInGroup(user.getGroup().getGroupId(), userId, user.getScore() + 1);
                 user.setScore(user.getScore() + 1);
             }
 
             return userRepository.save(user);
         } else {
-            throw new RuntimeException("User not found");
+            throw new CustomAppException(HttpStatus.NOT_FOUND, "User with ID " + userId + " not found");
         }
     }
 
@@ -55,7 +64,7 @@ public class UserService {
     public User claimReward(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (!optionalUser.isPresent()) {
-            throw new RuntimeException("User not found");
+            throw new CustomAppException(HttpStatus.NOT_FOUND, "User with ID " + userId + " not found");
         }
 
         User user = optionalUser.get();
@@ -72,7 +81,7 @@ public class UserService {
                 user.setCoins(user.getCoins() + 5000);
                 user.setHasReward(0);  // Reset the hasReward field after claiming
             }
-            case 0 -> throw new RuntimeException("No rewards to claim.");
+            case 0 -> throw new CustomAppException(HttpStatus.BAD_REQUEST, "No rewards to claim.");
             default -> throw new RuntimeException("Invalid reward status.");
         }
 
